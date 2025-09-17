@@ -1,7 +1,7 @@
-import { home } from ".../sections/home.js";
-import { services } from ".../sections/services.js";
-import { portfolio } from ".../sections/portfolio.js";
-import { contact } from ".../sections/contact.js";
+import { home } from "../sections/home.js";
+import { services } from "../sections/services.js";
+import { portfolio } from "../sections/portfolio.js";
+import { contact } from "../sections/contact.js";
 
 const content = document.getElementById("content");
 
