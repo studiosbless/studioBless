@@ -28,7 +28,7 @@ export const portfolio = `
         <h3>Videojuegos</h3>
         <div class="card-content">
           <p>Diseñamos y programamos videojuegos atractivos y divertidos.</p>
-          <a href="./proyectos/SnakeGame/index.html" target="_blank">Ver ejemplo</a>
+          <a href="./proyectos/snakeGame/index.html" target="_blank">Ver ejemplo</a>
 
         </div>
       </div>
