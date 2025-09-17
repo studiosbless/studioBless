@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page Dinámica</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background-color: #111;
+      color: #eee;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #222;
+      padding: 15px 20px;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    header a {
+      color: #0f0;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    header a::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: aqua;
+      transition: width 0.3s;
+    }
+
+    header a:hover {
+      color: aqua;
+    }
+
+    header a:hover::after {
+      width: 100%;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: rgb(239, 242, 239);
+      font-weight: bold;
+      padding: 8px 12px;
+      transition: all 0.3s ease;
+    }
+
+    section {
+      min-height: 100vh;
+      padding: 100px 20px 50px;
+      text-align: center;
+    }
+
+    #home {
+      background: linear-gradient(135deg, #111, #333);
+    }
+
+    #galeria {
+      background: #222;
+    }
+
+    #galeria .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    #galeria img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    #galeria img:hover {
+      transform: scale(1.05);
+    }
+
+    #quienes {
+      background: linear-gradient(135deg, #333, #111);
+    }
+
+    #contacto {
+      background: #222;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    form input, form textarea, form button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    form input:hover{
+        border-bottom: 3px solid aqua;
+        transition: .3s;
+    }
+
+    form textarea:hover{
+        border-bottom: 3px solid aqua;
+        transition: .3s;
+
+    }
+
+    form input, form textarea {
+      background: #333;
+      color: #eee;
+    }
+
+    form button {
+      background: #0f0;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    form button:hover {
+      background: aqua;
+    }
+
+    .mensaje {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 2000;
+    }
+
+    .lightbox.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,255,0,0.5);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul id="menu"></ul>
+    </nav>
+  </header>
+
+  <main id="contenido"></main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <img id="lightbox-img" src="" alt="Imagen ampliada">
+  </div>
+
+  <script>
+    const secciones = [
+      {
+        id: "home",
+        titulo: "Bienvenido",
+        contenido: "<h1>Landing Page Dinámica</h1><p>Explora nuestras secciones.</p>"
+      },
+      {
+        id: "galeria",
+        titulo: "Galería",
+        contenido: `
+          <h2>Nuestra Galería</h2>
+          <div class="grid">
+            <img src="https://picsum.photos/id/1011/800/600" alt="Imagen 1">
+            <img src="https://picsum.photos/id/1012/800/600" alt="Imagen 2">
+            <img src="https://picsum.photos/id/1013/800/600" alt="Imagen 3">
+            <img src="https://picsum.photos/id/1015/800/600" alt="Imagen 4">
+            <img src="https://picsum.photos/id/1016/800/600" alt="Imagen 5">
+            <img src="https://picsum.photos/id/1010/800/600" alt="Imagen 6">
+          </div>`
+      },
+      {
+        id: "quienes",
+        titulo: "Quiénes Somos",
+        contenido: "<h2>Sobre Nosotros</h2><p>Somos una empresa dedicada a brindar soluciones digitales modernas y atractivas. Nuestro objetivo es ofrecer experiencias únicas a nuestros clientes.</p>"
+      },
+      {
+        id: "contacto",
+        titulo: "Contacto",
+        contenido: `
+          <h2>Contáctanos</h2>
+          <form id="formContacto">
+            <input type="text" placeholder="Tu Nombre" required>
+            <input type="email" placeholder="Tu Email" required>
+            <textarea placeholder="Tu Mensaje" rows="5" required></textarea>
+            <button type="submit">Enviar</button>
+            <p class="mensaje" id="mensaje"></p>
+          </form>`
+      }
+    ];
+
+    // Generar menú y secciones
+    const menu = document.getElementById("menu");
+    const contenido = document.getElementById("contenido");
+
+    secciones.forEach(sec => {
+      // Menú
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = `#${sec.id}`;
+      a.textContent = sec.titulo;
+      a.addEventListener("click", e => {
+        e.preventDefault();
+        document.querySelector(`#${sec.id}`).scrollIntoView({ behavior: "smooth" });
+      });
+      li.appendChild(a);
+      menu.appendChild(li);
+
+      // Secciones
+      const section = document.createElement("section");
+      section.id = sec.id;
+      section.innerHTML = sec.contenido;
+      contenido.appendChild(section);
+    });
+
+    // Formulario contacto con fetch
+    document.addEventListener("submit", async e => {
+      if (e.target.id === "formContacto") {
+        e.preventDefault();
+        const mensaje = document.getElementById("mensaje");
+        try {
+          await fetch("https://jsonplaceholder.typicode.com/posts", {
+            method: "POST",
+            body: JSON.stringify({ nombre: "Demo", mensaje: "Prueba" }),
+            headers: { "Content-type": "application/json" }
+          });
+          mensaje.textContent = "✅ Mensaje enviado con éxito!";
+          mensaje.style.color = "lime";
+        } catch {
+          mensaje.textContent = "❌ Error al enviar el mensaje.";
+          mensaje.style.color = "red";
+        }
+      }
+    });
+
+    // Lightbox
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+
+    document.addEventListener("click", e => {
+      if (e.target.closest("#galeria img")) {
+        lightboxImg.src = e.target.src;
+        lightbox.classList.add("active");
+      } else if (e.target === lightbox) {
+        lightbox.classList.remove("active");
+      }
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        lightbox.classList.remove("active");
+      }
+    });
+  </script>
+</body>
+</html>

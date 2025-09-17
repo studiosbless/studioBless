@@ -1,0 +1,196 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+  }
+  
+  body {
+    background-color: #111;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* Header */
+  .header {
+    background: #000;
+    color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid pink;
+  }
+  
+  .logo span {
+    color: orange;
+  }
+  
+  .nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .nav a {
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  
+  .nav a:hover {
+    color: orange;
+  }
+  
+  /* Contenido dinámico */
+  #content {
+    background: url("../img/imagen1.jpg") no-repeat;
+    background-size: cover;
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .fade-out {
+    opacity: 0;
+  }
+  
+  .fade-in {
+    opacity: 1;
+  }
+  
+  /* Footer */
+  .footer {
+    background: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    color: #aaa;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .social-icons img {
+    width: 14px;
+    height: 14px;
+    filter: invert(1); /* para que los íconos SVG se vean en blanco */
+    transition: transform 0.3s, filter 0.3s;
+  }
+  
+  .social-icons img:hover {
+    transform: scale(1.2);
+    filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(-20deg); /* efecto naranja */
+  }
+  
+  
+  /* Secciones */
+  .section {
+    max-width: 800px;
+    text-align: center;
+  }
+  
+  .section h2 {
+    font-size: 2rem;
+    color: orange;
+    margin-bottom: 1rem;
+  }
+  
+  .section p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+ /* ===== Portafolio ===== */
+.portfolio-container {
+  display: flex;
+  justify-content: center; /* centra todas las tarjetas */
+  gap: 20px; /* margen entre tarjetas */
+  flex-wrap: wrap; /* baja a otra línea en pantallas pequeñas */
+  margin-top: 2rem;
+}
+
+.portfolio-card {
+  flex: 1 1 200px; /* ancho base 200px, se puede achicar o crecer */
+  max-width: 250px; /* para que no sean demasiado grandes */
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-5px);
+}
+
+.portfolio-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 2px solid #eee;
+  transition: transform 0.3s ease;
+}
+
+.portfolio-card h3 {
+  margin: 15px 0 10px;
+  font-size: 18px;
+  text-align: center;
+  color: #000;
+}
+
+.portfolio-card p {
+  color: #000;
+}
+
+.card-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0 15px;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+}
+
+.portfolio-card.active .card-content {
+  max-height: 200px;
+  opacity: 1;
+  margin-bottom: 15px;
+}
+
+/* Responsivo: apilar tarjetas en móviles */
+@media (max-width: 900px) {
+  .portfolio-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+
+
+  
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .nav ul {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+  
